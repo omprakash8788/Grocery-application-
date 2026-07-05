@@ -20,7 +20,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 // Provider
 export function CartProvider({children}:{children:ReactNode}){
 //   In this block we will create all the state and function and that we can access in anywhere 
-let [items, setItem]=useState<CartItem[]>(()=>{
+let [items, setItems]=useState<CartItem[]>(()=>{
     const saved = localStorage.getItem("app_cart")
     return saved ? JSON.parse(saved) : []
 })
@@ -32,7 +32,7 @@ useEffect(()=>{
 },[items])
 
 const addToCart=(product:Product, quantity=1)=>{
-  setItem((prev)=>{
+  setItems((prev)=>{
     const existing = prev.find((item)=>item.product._id===product._id);
     if(existing){
         return prev.map((item)=>(item.product._id===product._id ? {...item, quantity:item.quantity + quantity } : item))
@@ -43,7 +43,7 @@ const addToCart=(product:Product, quantity=1)=>{
 }
 
 const  removeFromCart=(productId:string)=>{
-    setItem((prev)=>prev.filter((item)=>item.product._id !==productId));
+    setItems((prev)=>prev.filter((item)=>item.product._id !==productId));
 
 }
 
@@ -52,11 +52,11 @@ const updateQuantity=(productId:string, quantity:number)=>{
         removeFromCart(productId);
         return;
     }
-    setItem((prev)=>prev.map((item)=>(item.product._id=== productId ? {...item, quantity} : item)))
+    setItems((prev)=>prev.map((item)=>(item.product._id=== productId ? {...item, quantity} : item)))
 }
 
  const clearCart=()=>{
-    setItem([]) // make cart empty
+    setItems([]) // make cart empty
     setIsCartOpen(false)
  }
  const cartCount = items.reduce((sum, item)=>sum + item.quantity, 0)
