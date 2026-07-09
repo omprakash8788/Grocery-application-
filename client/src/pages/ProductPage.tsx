@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { Product } from "../types";
 import { dummyProducts } from "../assets/assets";
 import Loading from "../components/Loading";
-import { HomeIcon } from "lucide-react";
+import { ArrowLeftIcon, HomeIcon } from "lucide-react";
 
 const ProductPage = () => {
   // 1
@@ -53,20 +53,43 @@ const ProductPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Add breadcrums */}
         <nav className="flex items-center gap-2 text-sm text-app-text-light mb-6">
-         <Link to="/" className="hover:text-app-green transition-colors">
-          <HomeIcon className="size-4"/>
-         </Link>
-         <span>/</span>
-          <Link to="/products" className="hover:text-app-green transition-colors">
-           Products
-         </Link>
-         <span>/</span>
-           <Link to={`/products?category=${product.category}`} className="hover:text-app-green transition-colors capitalize">
-           {categoryLabel}
-         </Link>
-         <span>/</span>
-         <span className="text-app-green font-medium truncate max-w-50">{product.name}</span>
+          <Link to="/" className="hover:text-app-green transition-colors">
+            <HomeIcon className="size-4" />
+          </Link>
+          <span>/</span>
+          <Link
+            to="/products"
+            className="hover:text-app-green transition-colors"
+          >
+            Products
+          </Link>
+          <span>/</span>
+          <Link
+            to={`/products?category=${product.category}`}
+            className="hover:text-app-green transition-colors capitalize"
+          >
+            {categoryLabel}
+          </Link>
+          <span>/</span>
+          <span className="text-app-green font-medium truncate max-w-50">
+            {product.name}
+          </span>
         </nav>
+        {/* Back button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-6 flex items-center gap-1.5 text-sm text-app-text-light hover:text-app-green transition-colors"
+        >
+          <ArrowLeftIcon className="size-4" /> Back
+        </button>
+        {/* Product detail section */}
+
+
+        {/* Customer reviews */}
+
+
+
+        {/* Related Products */}
       </div>
     </div>
   );
