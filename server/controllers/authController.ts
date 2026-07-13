@@ -58,3 +58,41 @@ export const register = async (req: Request, res: Response) => {
     res.status(201).json({user:userData, token})
 
 }
+
+// Login
+// POST - /api/auth/login
+export const login = async (req: Request, res: Response) => {
+    // 12- get data from request body
+    // While login we need email, pass
+    const {email, password } = req.body;
+
+    //13 Add check ask user to add all these fields
+    if (!email || !password) {
+        return res.status(400).json({ message: "Please provide email and password" })
+    }
+    //14. find user from db
+    const user = await prisma.user.findUnique({ where: { email: email.toLowerCase() }, include:{addresses:true} })
+
+    // 15. 
+    if (!user) {
+        return res.status(400).json({ message: "Invalid email or password" })
+    }
+    // 16- If data aval on provided email id then match the pass
+    const isMatch = await bcrypt.compare(password, user.password)
+    if(!isMatch){
+        return res.status(401).json({ message: "Invalid email or password" })
+    }
+
+    // 17. After that we need to generate token
+    const token = generateToken(user.id) // using this id it will generate unique token
+    // 18. After that send user response
+    const userData: any = { ...user };
+    // and exclude the password
+    delete userData.password; // password property removed from the userData
+
+    // 19. After that check user data is admin or not
+    userData.isAdmin = getAdminStatus(userData.email)
+    // After that send data as response
+    res.json({user:userData, token})
+
+}
