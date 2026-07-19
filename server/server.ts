@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express"
 
 import cors from "cors"
 import authRouter from "./routes/authRoutes.js";
+import productRouter from "./routes/productRoutes.js";
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.get('/', (req:Request, res:Response)=>{
 
 //23 Register phase
 app.use('/api/auth', authRouter)
+//34
+app.use("/api/products", productRouter)
 
 // 24 Error handling - This function catch any error in all routes and controller function
 app.use((error:any ,req:Request, res:Response, next:NextFunction)=>{
