@@ -65,3 +65,13 @@ export const getProduct = async (req: Request, res: Response) => {
     res.json({ product: { ...product, discount } })
 
 }
+
+// 28
+// POST /api/products
+
+export const createProduct = async (req: Request, res: Response) => {
+    //  First get the data from req body
+    const product = await prisma.product.create({data:req.body})
+    // After that send the response
+    res.status(201).json({product})
+}
