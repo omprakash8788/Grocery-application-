@@ -74,4 +74,25 @@ export const createProduct = async (req: Request, res: Response) => {
     const product = await prisma.product.create({data:req.body})
     // After that send the response
     res.status(201).json({product})
+    // Note - uploading images we need separate controller function
+}
+
+// 29. 
+// POST /api/producs/:id
+export const updateProduct = async (req: Request, res: Response) => {
+   
+    const product = await prisma.product.update({where:{id:req.params.id as string}, data:req.body})
+    // After that send the response
+    res.json({product})
+   
+}
+
+// 30. 
+// Delete /api/producs/:id
+export const deleteProduct = async (req: Request, res: Response) => {
+   
+    await prisma.product.delete({where:{id:req.params.id as string}})
+    // After that send the response
+    res.json({message:"Product Deleted"})
+   
 }
